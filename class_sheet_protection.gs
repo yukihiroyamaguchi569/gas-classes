@@ -67,14 +67,12 @@ class SheetProtection {
   /**
   * シートの保護から自分以外の編集者を削除
   * 注：そもそもシートのオーナーとスクリプト実行ユーザーは削除できない。（エラーも出ない）
+  * 注:自分がグループアカウントのみで編集権限を付与されていると、そのグループアカウントを削除できずエラーになる。
+  *    先に自分のアカウントを追加してから、これを実行する
   */
-  removeAllEditorsButMe() {
+  removeAllEditors() {
     const me = Session.getEffectiveUser();
     const editors = this.protections[0].getEditors();
-
-    //自分がグループアカウントのみで編集権限を付与されていると、そのグループアカウントを削除できずエラーになる。
-    //予防的に個人アカウントを追加する。
-    this.protections[0].addEditor(me); 　
 
     this.protections[0].removeEditors(editors);
 
